@@ -36,3 +36,66 @@ jobs:
     - name: Run tests
       run: java -cp "out:libs/junit-platform-console-standalone-1.8.2.jar" org.junit.platform.console.ConsoleLauncher --scan-classpath
 
+    - name: Notify Slack on Success
+      if: success() # 성공한 경우 실행
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "channel": "채널 ID",
+            "attachments": [
+              {
+                "color": "#36a64f",
+                "title": "${{ github.repository }}",
+                "title_link": "https://github.com/${{ github.repository }}",
+                "text": "GitHub Action 성공 🎉",
+                "fields": [
+                  {
+                    "title": "Repository",
+                    "value": "${{ github.repository }}",
+                    "short": true
+                  },
+                  {
+                    "title": "Branch",
+                    "value": "${{ github.ref_name }}",
+                    "short": true
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+    - name: Notify Slack on Failure
+      if: failure() # 실패한 경우 실행
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "channel": "채널 ID",
+            "attachments": [
+              {
+                "color": "#ff0000",
+                "title": "${{ github.repository }}",
+                "title_link": "https://github.com/${{ github.repository }}",
+                "text": "GitHub Action 실패 🚨",
+                "fields": [
+                  {
+                    "title": "Repository",
+                    "value": "${{ github.repository }}",
+                    "short": true
+                  },
+                  {
+                    "title": "Branch",
+                    "value": "${{ github.ref_name }}",
+                    "short": true
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
