@@ -36,11 +36,35 @@ jobs:
     - name: Run tests
       run: java -cp "out:libs/junit-platform-console-standalone-1.8.2.jar" org.junit.platform.console.ConsoleLauncher --scan-classpath
 
-    - name: Slack - Send Msg
-    - uses: 8398a7/action-slack@v3
+    - name: Notify Slack on Success
+      if: success() # 이 step은 job이 성공한 경우에만 실행된다.
+      id: slack-success
+      uses: slackapi/slack-github-action@v1.24.0
       with:
-        status: ${{ job.status }}
-        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
+        payload: |
+          {
+            "channel": "#github알림",
+            "attachments": [
+              {
+                "color": "#36a64f", # 성공시 연두색
+                "title": "${{ github.repository }}", # 제목은 깃헙 레포지토리
+                "title_link": "https://github.com/${{github.repository}}", # 제목 클릭시 레포지토리로 이동
+                "text": "GitHub Action 성공",
+                "fields": [
+                  {
+                    "title": "Repository",
+                    "value": "${{ github.repository }}",
+                    "short": true
+                  },
+                  {
+                    "title": "Tag",
+                    "value": "${{ github.ref_name }}",
+                    "short": true
+                  }
+                ]      
+              }
+            ]
+          }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFICATION }} # required
-      if: always() # Pick up events even if the job fails or is canceled.
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFICATION }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
