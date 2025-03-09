@@ -36,12 +36,11 @@ jobs:
     - name: Run tests
       run: java -cp "out:libs/junit-platform-console-standalone-1.8.2.jar" org.junit.platform.console.ConsoleLauncher --scan-classpath
 
-    - name: Slack - Send Msg   
-      uses: 8398a7/action-slack@v3   
-      with:      
+    - name: Slack - Send Msg
+    - uses: 8398a7/action-slack@v3
+      with:
         status: ${{ job.status }}
-        fields: workflow,job,commit,repo,author,took,ref
-        author_name: Heeg  
-        env:      
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFICATION }}
-        if: always()
+        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFICATION }} # required
+      if: always() # Pick up events even if the job fails or is canceled.
