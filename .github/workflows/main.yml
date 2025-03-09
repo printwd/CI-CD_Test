@@ -66,7 +66,7 @@ jobs:
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
     - name: Notify Slack on Failure
@@ -99,5 +99,5 @@ jobs:
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
