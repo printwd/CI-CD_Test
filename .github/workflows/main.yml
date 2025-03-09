@@ -43,7 +43,7 @@ jobs:
       with:
         payload: |
           {
-            "channel": "C08GF7NRMB4",
+            "channel": "#cicd-테스트",
             "attachments": [
               {
                 "color": "#36a64f", # 성공시 연두색
@@ -76,7 +76,7 @@ jobs:
       with:
         payload: |
           {
-            "channel": "C08GF7NRMB4",
+            "channel": "#cicd-테스트",
             "attachments": [
               {
                 "color": "#ff0000", # 실패시 빨간색
