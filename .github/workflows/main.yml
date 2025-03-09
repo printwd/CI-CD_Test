@@ -43,7 +43,7 @@ jobs:
       with:
         payload: |
           {
-            "channel": "#cicd-테스트",
+            "channel": "#github알림",
             "attachments": [
               {
                 "color": "#36a64f", # 성공시 연두색
@@ -66,7 +66,7 @@ jobs:
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
     - name: Notify Slack on Failure
@@ -76,7 +76,7 @@ jobs:
       with:
         payload: |
           {
-            "channel": "#cicd-테스트",
+            "channel": "#github알림",
             "attachments": [
               {
                 "color": "#ff0000", # 실패시 빨간색
@@ -99,5 +99,5 @@ jobs:
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
