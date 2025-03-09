@@ -37,18 +37,19 @@ jobs:
       run: java -cp "out:libs/junit-platform-console-standalone-1.8.2.jar" org.junit.platform.console.ConsoleLauncher --scan-classpath
 
     - name: Notify Slack on Success
-      if: success() # 성공한 경우 실행
+      if: success() # 이 step은 job이 성공한 경우에만 실행된다.
+      id: slack-success
       uses: slackapi/slack-github-action@v1.24.0
       with:
         payload: |
           {
-            "channel": "채널 ID",
+            "channel": "C08GF7NRMB4",
             "attachments": [
               {
-                "color": "#36a64f",
-                "title": "${{ github.repository }}",
-                "title_link": "https://github.com/${{ github.repository }}",
-                "text": "GitHub Action 성공 🎉",
+                "color": "#36a64f", # 성공시 연두색
+                "title": "${{ github.repository }}", # 제목은 깃헙 레포지토리
+                "title_link": "https://github.com/${{github.repository}}", # 제목 클릭시 레포지토리로 이동
+                "text": "GitHub Action 성공",
                 "fields": [
                   {
                     "title": "Repository",
@@ -56,46 +57,47 @@ jobs:
                     "short": true
                   },
                   {
-                    "title": "Branch",
+                    "title": "Tag",
                     "value": "${{ github.ref_name }}",
                     "short": true
                   }
-                ]
+                ]      
               }
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
     - name: Notify Slack on Failure
-      if: failure() # 실패한 경우 실행
+      if: failure() # 이 step은 job이 실패한 경우에만 실행됩니다.
+      id: slack-failure
       uses: slackapi/slack-github-action@v1.24.0
       with:
         payload: |
           {
-            "channel": "채널 ID",
+            "channel": "C08GF7NRMB4",
             "attachments": [
               {
-                "color": "#ff0000",
-                "title": "${{ github.repository }}",
-                "title_link": "https://github.com/${{ github.repository }}",
-                "text": "GitHub Action 실패 🚨",
+                "color": "#ff0000", # 실패시 빨간색
+                "title": "${{ github.repository }}", # 제목은 깃헙 레포지토리
+                "title_link": "https://github.com/${{github.repository}}", # 제목 클릭시 레포지토리로 이동
+                "text": "GitHub Action 실패 :x:",
                 "fields": [
                   {
                     "title": "Repository",
-                    "value": "${{ github.repository }}",
-                    "short": true
+                "value": "${{ github.repository }}",
+                "short": true
                   },
                   {
-                    "title": "Branch",
+                    "title": "Tag",
                     "value": "${{ github.ref_name }}",
                     "short": true
                   }
-                ]
+                ]      
               }
             ]
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
